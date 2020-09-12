@@ -1,0 +1,40 @@
+{
+  "name": "influxdb-v1",
+  "version": "1.0.0",
+  "description": "A light-weight library to write data to InfluxDB v1 and query it.",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "files": [
+    "/src"
+  ],
+  "scripts": {
+    "test": "uvu tests",
+    "coverage": "c8 --include=src npm test && c8 report --reporter=text-lcov > coverage/lcov.info"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ASaiAnudeep/influxdb-v1.git"
+  },
+  "keywords": [
+    "influx",
+    "influxdb",
+    "v1"
+  ],
+  "author": "Anudeep <asa.anudeep4@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ASaiAnudeep/influxdb-v1/issues"
+  },
+  "homepage": "https://github.com/ASaiAnudeep/influxdb-v1#readme",
+  "engines": {
+    "node": ">=8"
+  },
+  "dependencies": {
+    "phin-retry": "^1.0.3"
+  },
+  "devDependencies": {
+    "c8": "^7.3.0",
+    "pactum": "^2.0.4",
+    "uvu": "^0.3.3"
+  }
+}
