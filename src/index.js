@@ -3,13 +3,23 @@ const rp = require('phin-retry');
 class DB {
 
   constructor(options) {
+    if (!options) throw new Error('`options` are required');
+    if (!options.url) throw new Error('`url` is required');
+    if (!options.db) throw new Error('`db` is required');
     this.options = options;
   }
 
-  write(data) {
+  write(metrics) {
+    if (!metrics) throw new Error('`metrics` are required');
     const payloads = [];
-    for (let i = 0; i < data.length; i++) {
-      const item = data[i];
+    if (!Array.isArray(metrics)) {
+      metrics = [metrics];
+    }
+    for (let i = 0; i < metrics.length; i++) {
+      const item = metrics[i];
+      if (!item) throw new Error('`metrics` are required');
+      if (!item.measurement) throw new Error('`measurement` is required');
+      if (!item.fields) throw new Error('`fields` are required');
       const tags = Object.keys(item.tags || {}).map(key => `,${key}=${item.tags[key]}`).join('');
       const fields = Object.keys(item.fields).map(key => typeof item.fields[key] === 'string' ? `${key}="${item.fields[key]}"` : `${key}=${item.fields[key]}`).join(',');
       const timestamp = item.timestamp ? ` ${item.timestamp}` : '';
@@ -26,15 +36,14 @@ class DB {
 
 }
 
-
 const influx = {
 
   db(options) {
     return new DB(options);
   },
 
-  write(options, data) {
-    return new DB(options).write(data);
+  write(options, metrics) {
+    return new DB(options).write(metrics);
   }
 
 };

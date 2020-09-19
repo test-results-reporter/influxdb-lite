@@ -1,6 +1,6 @@
 # influxdb-v1
 
-A light-weight library to write data to InfluxDB v1 and query it.
+A light-weight library to write data to InfluxDB.
 
 ## Example
 
@@ -35,16 +35,14 @@ await influx.write(
 // or
 
 const db = influx.db({ url: 'http://influx.url', db: 'database name'});
-await db.write([
-  {
-    measurement: 'web',
-    fields: {
-      load: 12.34
-    }
+await db.write({
+  measurement: 'web',
+  fields: {
+    load: 12.34
   }
-]);
+});
 ```
 
 ### Note
 
-Inspired from (influxdb-v2)[https://www.npmjs.com/package/influxdb-v2]
+Inspired from [influxdb-v2](https://www.npmjs.com/package/influxdb-v2)
