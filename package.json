@@ -1,7 +1,7 @@
 {
   "name": "influxdb-v1",
   "version": "1.0.1",
-  "description": "A light-weight library to write data to InfluxDB v1 and query it.",
+  "description": "A light-weight library to write data to InfluxDB v1",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "files": [

@@ -2,9 +2,13 @@ name: Build
 
 on:
   pull_request:
+    paths-ignore:
+      - 'README.md'
     branches: 
       - master
   push:
+    paths-ignore:
+      - 'README.md'
     branches: 
       - master
 
