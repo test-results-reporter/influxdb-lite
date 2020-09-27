@@ -52,7 +52,7 @@ test('write - multiple metrics', async () => {
       }
     ]
   );
-  assert.ok(mock.isInteractionExercised(id), 'interaction not exercised');
+  assert.ok(mock.getInteraction(id).exercised, 'interaction not exercised');
 });
 
 test('write - single metrics', async () => {
@@ -85,7 +85,7 @@ test('write - single metrics', async () => {
       }
     }
   );
-  assert.ok(mock.isInteractionExercised(id), 'interaction not exercised');
+  assert.ok(mock.getInteraction(id).exercised, 'interaction not exercised');
 });
 
 test('db -> write - multiple metrics', async () => {
@@ -128,7 +128,7 @@ test('db -> write - multiple metrics', async () => {
       }
     ]
   );
-  assert.ok(mock.isInteractionExercised(id), 'interaction not exercised');
+  assert.ok(mock.getInteraction(id).exercised, 'interaction not exercised');
 });
 
 test('db -> null', () => {
