@@ -88,6 +88,39 @@ test('write - single metrics', async () => {
   assert.ok(mock.getInteraction(id).exercised, 'interaction not exercised');
 });
 
+test.only('write - single metric with special characters', async () => {
+  const id = mock.addMockInteraction({
+    withRequest: {
+      method: 'POST',
+      path: '/write',
+      query: {
+        db: 'temp'
+      },
+      body: 'first\\,\\ table,Country=India\\,\\ ASIA,City=HYD\\=SEC duration=10,load=22.5,status=true,tag="Host \\"Metric\\""'
+    },
+    willRespondWith: {
+      status: 200
+    }
+  });
+  await influx.write(
+    { url: 'http://localhost:9393', db: 'temp' },
+    {
+      measurement: 'first, table',
+      fields: {
+        duration: 10,
+        load: 22.5,
+        status: true,
+        tag: 'Host "Metric"'
+      },
+      tags: {
+        Country: 'India, ASIA',
+        City: 'HYD=SEC'
+      }
+    }
+  );
+  assert.ok(mock.getInteraction(id).exercised, 'interaction not exercised');
+});
+
 test('db -> write - multiple metrics', async () => {
   const id = mock.addMockInteraction({
     withRequest: {

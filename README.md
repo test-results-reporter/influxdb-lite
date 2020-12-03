@@ -2,6 +2,9 @@
 
 A light-weight library to write data to InfluxDB.
 
+- Parse Special Characters
+- Inbuilt Retry Mechanisms
+
 ## Example
 
 ```javascript

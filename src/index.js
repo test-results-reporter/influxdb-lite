@@ -1,5 +1,18 @@
 const rp = require('phin-retry');
 
+function pM(value) {
+  return value.replace(/,/g, '\\,').replace(/ /g, '\\ ');
+}
+
+function pT(value) {
+  return pM(value).replace(/=/g, '\\=');
+}
+
+function pF(value) {
+  if (typeof value === 'string') return `"${value.replace(/"/g, '\\"')}"`;
+  return value;
+}
+
 class DB {
 
   constructor(options) {
@@ -20,10 +33,10 @@ class DB {
       if (!item) throw new Error('`metrics` are required');
       if (!item.measurement) throw new Error('`measurement` is required');
       if (!item.fields) throw new Error('`fields` are required');
-      const tags = Object.keys(item.tags || {}).map(key => `,${key}=${item.tags[key]}`).join('');
-      const fields = Object.keys(item.fields).map(key => typeof item.fields[key] === 'string' ? `${key}="${item.fields[key]}"` : `${key}=${item.fields[key]}`).join(',');
+      const tags = Object.keys(item.tags || {}).map(key => `,${pT(key)}=${pT(item.tags[key])}`).join('');
+      const fields = Object.keys(item.fields).map(key => `${pT(key)}=${pF(item.fields[key])}`).join(',');
       const timestamp = item.timestamp ? ` ${item.timestamp}` : '';
-      payloads.push(`${item.measurement}${tags} ${fields}${timestamp}`);
+      payloads.push(`${pM(item.measurement)}${tags} ${fields}${timestamp}`);
     }
     return rp.post({
       url: `${this.options.url}/write`,
