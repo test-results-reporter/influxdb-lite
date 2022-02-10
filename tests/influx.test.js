@@ -1,4 +1,4 @@
-const mock = require('pactum').mock;
+const { mock } = require('pactum');
 const test = require('uvu').test;
 const assert = require('uvu/assert');
 
@@ -13,17 +13,17 @@ test.after(() => {
 });
 
 test('write - multiple metrics', async () => {
-  const id = mock.addMockInteraction({
-    withRequest: {
+  const id = mock.addInteraction({
+    request: {
       method: 'POST',
       path: '/write',
-      query: {
+      queryParams: {
         db: 'temp'
       },
       body: 'table,Country=India,City=HYD duration=10,load=22.5,status=true,tag="Host"\n' +
         'other-table duration=10 12344'
     },
-    willRespondWith: {
+    response: {
       status: 200
     }
   });
@@ -56,16 +56,16 @@ test('write - multiple metrics', async () => {
 });
 
 test('write - single metrics', async () => {
-  const id = mock.addMockInteraction({
-    withRequest: {
+  const id = mock.addInteraction({
+    request: {
       method: 'POST',
       path: '/write',
-      query: {
+      queryParams: {
         db: 'temp'
       },
       body: 'table,Country=India,City=HYD duration=10,load=22.5,status=true,tag="Host"'
     },
-    willRespondWith: {
+    response: {
       status: 200
     }
   });
@@ -88,17 +88,53 @@ test('write - single metrics', async () => {
   assert.ok(mock.getInteraction(id).exercised, 'interaction not exercised');
 });
 
-test.only('write - single metric with special characters', async () => {
-  const id = mock.addMockInteraction({
-    withRequest: {
+test('write - with authentication', async () => {
+  const id = mock.addInteraction({
+    request: {
       method: 'POST',
       path: '/write',
-      query: {
+      headers: {
+        'Authorization': 'Basic dXNlcjpwYXNz'
+      },
+      queryParams: {
+        db: 'temp'
+      },
+      body: 'table,Country=India,City=HYD duration=10,load=22.5,status=true,tag="Host"'
+    },
+    response: {
+      status: 200
+    }
+  });
+  await influx.write(
+    { url: 'http://localhost:9393', db: 'temp', username: 'user', password: 'pass' },
+    {
+      measurement: 'table',
+      fields: {
+        duration: 10,
+        load: 22.5,
+        status: true,
+        tag: 'Host'
+      },
+      tags: {
+        Country: 'India',
+        City: 'HYD'
+      }
+    }
+  );
+  assert.ok(mock.getInteraction(id).exercised, 'interaction not exercised');
+});
+
+test('write - single metric with special characters', async () => {
+  const id = mock.addInteraction({
+    request: {
+      method: 'POST',
+      path: '/write',
+      queryParams: {
         db: 'temp'
       },
       body: 'first\\,\\ table,Country=India\\,\\ ASIA,City=HYD\\=SEC duration=10,load=22.5,status=true,tag="Host \\"Metric\\""'
     },
-    willRespondWith: {
+    response: {
       status: 200
     }
   });
@@ -122,17 +158,17 @@ test.only('write - single metric with special characters', async () => {
 });
 
 test('db -> write - multiple metrics', async () => {
-  const id = mock.addMockInteraction({
-    withRequest: {
+  const id = mock.addInteraction({
+    request: {
       method: 'POST',
       path: '/write',
-      query: {
+      queryParams: {
         db: 'temp'
       },
       body: 'table,Country=India,City=HYD duration=10,load=22.5,status=true,tag="Host"\n' +
         'other-table duration=10 12344'
     },
-    willRespondWith: {
+    response: {
       status: 200
     }
   });

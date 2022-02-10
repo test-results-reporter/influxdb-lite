@@ -38,13 +38,17 @@ class DB {
       const timestamp = item.timestamp ? ` ${item.timestamp}` : '';
       payloads.push(`${pM(item.measurement)}${tags} ${fields}${timestamp}`);
     }
-    return rp.post({
+    const req = {
       url: `${this.options.url}/write`,
       qs: {
         db: this.options.db
       },
       body: payloads.join('\n')
-    });
+    }
+    if (this.options.username) {
+      req.auth = { user: this.options.username, pass: this.options.password };
+    }
+    return rp.post(req);
   }
 
 }

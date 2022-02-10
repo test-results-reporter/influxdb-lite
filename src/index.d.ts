@@ -1,6 +1,8 @@
 export interface InfluxOptions {
   url: string;
   db: string;
+  username?: string;
+  password?: string;
 }
 
 export interface Tags {
