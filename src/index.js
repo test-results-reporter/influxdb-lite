@@ -51,6 +51,36 @@ class DB {
     return rp.post(req);
   }
 
+  query(value) {
+    if (!value) throw new Error('`query` is required');
+    const req = {
+      url: `${this.options.url}/query`,
+      qs: {
+        db: this.options.db,
+        q: value
+      }
+    };
+    if (this.options.username) {
+      req.auth = { user: this.options.username, pass: this.options.password };
+    }
+    return rp.get(req);
+  }
+
+  flux(query) {
+    const req = {
+      url: `${this.options.url}/api/v2/query`,
+      headers: {
+        'Accept': 'application',
+        'Content-type': 'application/vnd.flux'
+      },
+      body: query
+    };
+    if (this.options.username) {
+      req.headers['Authorization'] = `Token ${this.options.username}:${this.options.password}`;
+    }
+    return rp.post(req);
+  }
+
 }
 
 const influx = {
@@ -61,6 +91,14 @@ const influx = {
 
   write(options, metrics) {
     return new DB(options).write(metrics);
+  },
+
+  query(options, value) {
+    return new DB(options).query(value);
+  },
+
+  flux(options, query) {
+    return new DB(options).flux(query);
   }
 
 };

@@ -274,4 +274,47 @@ test('db -> write - no fields', async () => {
   assert.equal(err.toString(), 'Error: `fields` are required');
 });
 
+test('query', async () => {
+  const id = mock.addInteraction({
+    request: {
+      method: 'GET',
+      path: '/query',
+      queryParams: {
+        db: 'temp',
+        q: 'SELECT * FROM results'
+      }
+    },
+    response: {
+      status: 200,
+      body: 'results'
+    }
+  });
+  const results = await influx.query(
+    { url: 'http://localhost:9393', db: 'temp' },
+    'SELECT * FROM results'
+  );
+  assert.equal(results, 'results');
+  assert.ok(mock.getInteraction(id).exercised, 'interaction not exercised');
+});
+
+test('flux', async () => {
+  const id = mock.addInteraction({
+    request: {
+      method: 'POST',
+      path: '/api/v2/query',
+      body: 'SELECT * FROM results'
+    },
+    response: {
+      status: 200,
+      body: 'results'
+    }
+  });
+  const results = await influx.flux(
+    { url: 'http://localhost:9393', db: 'temp' },
+    'SELECT * FROM results'
+  );
+  assert.equal(results, 'results');
+  assert.ok(mock.getInteraction(id).exercised, 'interaction not exercised');
+});
+
 test.run();

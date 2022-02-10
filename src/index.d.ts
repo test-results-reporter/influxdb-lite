@@ -26,6 +26,12 @@ export class DB {
    */
   write(metrics: Metrics): Promise<any>;
   write(metrics: Metrics[]): Promise<any>;
+
+  /**
+   * queries data from influx db
+   */
+  query(value: String): Promise<any>;
+  flux(value: String): Promise<any>;
 }
 
 /**
@@ -38,4 +44,11 @@ export function db(options: InfluxOptions): DB;
  */
 export function write(options: InfluxOptions, metrics: Metrics): Promise<any>;
 export function write(options: InfluxOptions, metrics: Metrics[]): Promise<any>;
+
+/**
+ * queries data from influx db
+ */
+export function query(options: InfluxOptions, value: String): Promise<any>;
+export function flux(options: InfluxOptions, value: String): Promise<any>;
+
 export namespace influx { }
