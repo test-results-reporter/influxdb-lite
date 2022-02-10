@@ -44,6 +44,12 @@ await db.write({
     load: 12.34
   }
 });
+
+// query
+
+const db = influx.db({ url: 'http://influx.url', db: 'database name', username: 'user', password: 'pass' });
+await db.query('SELECT * FROM measurement');
+await db.flux('from(bucket:"telegraf")');
 ```
 
 ### Note
