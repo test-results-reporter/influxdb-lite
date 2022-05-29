@@ -52,6 +52,14 @@ await db.query('SELECT * FROM measurement');
 await db.flux('from(bucket:"telegraf")');
 ```
 
+## CLI
+
+### Insert Data
+
+```shell
+npx influxdb-v1 insert --url <influx-base-url> --username <user> --password <pass> --db <database> --measurement <measurement> --tags "key=value" --fields "key=value" --ts <timestamp>
+```
+
 ### Note
 
 Inspired from [influxdb-v2](https://www.npmjs.com/package/influxdb-v2)
