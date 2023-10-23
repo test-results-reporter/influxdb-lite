@@ -5,7 +5,7 @@ const assert = require('uvu/assert');
 const insert = require('../src/commands/insert');
 
 test.before(() => {
-  return mock.start();
+  return mock.start(9393, 'localhost');
 });
 
 test.after(() => {

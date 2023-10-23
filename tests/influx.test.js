@@ -5,7 +5,7 @@ const assert = require('uvu/assert');
 const influx = require('../src/index');
 
 test.before(() => {
-  return mock.start();
+  return mock.start(9393, 'localhost');
 });
 
 test.after(() => {
