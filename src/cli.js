@@ -3,7 +3,7 @@ const sade = require('sade');
 
 const insert = require('./commands/insert');
 
-const prog = sade('influxdb-v1');
+const prog = sade('influxdb-lite');
 prog.version('1.0.1');
 
 prog.command('insert')

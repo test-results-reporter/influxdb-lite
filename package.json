@@ -1,11 +1,11 @@
 {
-  "name": "influxdb-v1",
-  "version": "1.0.4",
-  "description": "A light-weight library to write data to InfluxDB v1",
+  "name": "influxdb-lite",
+  "version": "1.0.0",
+  "description": "A light-weight library to write data to InfluxDB",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "bin": {
-    "influxdb-v1": "src/cli.js"
+    "influxdb-lite": "src/cli.js"
   },
   "files": [
     "/src"
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ASaiAnudeep/influxdb-v1.git"
+    "url": "git+https://github.com/test-results-reporter/influxdb-lite.git"
   },
   "keywords": [
     "influx",
@@ -27,9 +27,9 @@
   "author": "Anudeep <asa.anudeep4@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ASaiAnudeep/influxdb-v1/issues"
+    "url": "https://github.com/test-results-reporter/influxdb-lite/issues"
   },
-  "homepage": "https://github.com/ASaiAnudeep/influxdb-v1#readme",
+  "homepage": "https://github.com/test-results-reporter/influxdb-lite#readme",
   "engines": {
     "node": ">=8"
   },

@@ -1,8 +1,13 @@
 export interface InfluxOptions {
   url: string;
-  db: string;
+  version?: string;
+  db?: string;
+  org?: string;
+  bucket?: string;
+  precision?: string;
   username?: string;
   password?: string;
+  token?: string;
 }
 
 export interface Tags {
@@ -13,7 +18,7 @@ export interface Fields {
   [x: string]: number | boolean | string;
 }
 
-export interface Metrics {
+export interface Metric {
   measurement: string;
   fields: Fields;
   tags?: Tags;
@@ -24,8 +29,8 @@ export class DB {
   /**
    * writes data influx db
    */
-  write(metrics: Metrics): Promise<any>;
-  write(metrics: Metrics[]): Promise<any>;
+  write(metrics: Metric): Promise<any>;
+  write(metrics: Metric[]): Promise<any>;
 
   /**
    * queries data from influx db
@@ -42,8 +47,8 @@ export function db(options: InfluxOptions): DB;
 /**
  * writes data to influx db
  */
-export function write(options: InfluxOptions, metrics: Metrics): Promise<any>;
-export function write(options: InfluxOptions, metrics: Metrics[]): Promise<any>;
+export function write(options: InfluxOptions, metrics: Metric): Promise<any>;
+export function write(options: InfluxOptions, metrics: Metric[]): Promise<any>;
 
 /**
  * queries data from influx db
